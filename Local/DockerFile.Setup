@@ -1,0 +1,23 @@
+# Install Ubuntu and other relevant programs
+
+FROM ubuntu 
+
+RUN apt update 
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN apt install -y python-opencv python-pip mosquitto-clients libopencv-dev 
+RUN pip install paho-mqtt
+
+# Copy face capture script into root
+
+WORKDIR /
+
+RUN mkdir -p /capture
+
+WORKDIR /capture
+
+COPY capture.py /capture/
+COPY haarcascade_frontalface_default.xml /capture/
+
+CMD python /capture/capture.py

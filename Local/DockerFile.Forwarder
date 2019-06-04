@@ -1,0 +1,18 @@
+# Install Alpine Linux
+
+FROM arm64v8/alpine
+
+# Download mosquitto, python, and paho
+
+RUN apk update && apk add mosquitto-clients python py-pip
+RUN pip install paho-mqtt
+
+# Import and run forwarding logic
+
+RUN mkdir -p /foward
+
+WORKDIR /foward
+
+COPY foward.py /foward/
+
+CMD python /foward/foward.py
